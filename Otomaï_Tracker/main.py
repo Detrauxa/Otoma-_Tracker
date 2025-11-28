@@ -7,7 +7,14 @@ from pathlib import Path
 
 # ----------------- CONFIG -----------------
 APP_NAME = "Otomaï Tracker"
-SAVE_DIR = Path(os.path.expanduser("~")) / ".otomai_tracker"
+APP_VERSION = "1.0.0"
+
+# Utilise AppData/Local au lieu d'un dossier caché (réduit les faux positifs AV)
+if sys.platform == "win32":
+    SAVE_DIR = Path(os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))) / "Otomai Tracker"
+else:
+    SAVE_DIR = Path(os.path.expanduser("~")) / ".config" / "otomai_tracker"
+
 SAVE_DIR.mkdir(parents=True, exist_ok=True)
 SAVE_FILE = SAVE_DIR / "progress.json"
 SETTINGS_FILE = SAVE_DIR / "settings.json"
